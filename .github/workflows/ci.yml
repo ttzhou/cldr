@@ -7,6 +7,7 @@ on:
       - internal/**
       - num/**
       - test/**
+      - .github/workflows/ci.yml
       - gen_locales.go
       - go.mod
       - Makefile
@@ -16,6 +17,7 @@ on:
       - internal/**
       - num/**
       - test/**
+      - .github/workflows/ci.yml
       - gen_locales.go
       - go.mod
       - Makefile
@@ -49,6 +51,7 @@ jobs:
 
       - name: Upload test coverage
         uses: codecov/codecov-action@v5
+        if: github.ref == 'refs/heads/main' # only on merge to main
         with:
           fail_ci_if_error: true
           files: ./cover.out
