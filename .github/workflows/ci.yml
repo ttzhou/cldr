@@ -3,8 +3,22 @@ name: ci-checks
 on:
   push:
     branches: [main]
+    paths:
+      - internal/**
+      - num/**
+      - test/**
+      - gen_locales.go
+      - go.mod
+      - Makefile
   pull_request:
     branches: [main]
+    paths:
+      - internal/**
+      - num/**
+      - test/**
+      - gen_locales.go
+      - go.mod
+      - Makefile
 
 jobs:
   test:
