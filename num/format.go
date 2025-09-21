@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"cldr/internal/locale"
+	"github.com/ttzhou/cldr/internal/locale"
 )
 
 const (
@@ -137,7 +137,7 @@ func (f numberFormatter) formatFrac(n uint64, mw uint8) (string, error) {
 	var s string
 
 	if mw > 0 {
-		if mw > uint8(MaxSupportedScale) {
+		if mw > uint8(maxSupportedScale) {
 			return "", unsupportedScaleError(int8(mw))
 		}
 		if countDigits(n) > mw {

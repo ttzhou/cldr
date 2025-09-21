@@ -3,7 +3,7 @@ package num_test
 import (
 	"testing"
 
-	"cldr/num"
+	"github.com/ttzhou/cldr/num"
 )
 
 type moneyTestCase struct {

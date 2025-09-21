@@ -14,7 +14,7 @@ import (
 	"strconv"
 	"strings"
 
-	"cldr/internal/locale"
+	"github.com/ttzhou/cldr/internal/locale"
 )
 
 // Parse a number format string into useful structured information.
