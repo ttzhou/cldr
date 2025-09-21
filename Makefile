@@ -48,4 +48,3 @@ clean:
 gen-locales:
 	@go generate
 
-
