@@ -1,0 +1,41 @@
+# Defines the configuration version.
+# The only possible value is "2".
+version: "2"
+run:
+  timeout: 5m
+  concurrency: 8
+  allow-parallel-runners: true
+  tests: true
+  build-tags:
+    - generate
+formatters:
+  enable:
+    - gofumpt
+    - gofmt
+    - golines
+    - goimports
+    - gci
+  settings:
+    gofumpt:
+      module-path: cldr
+      extra-rules: true
+linters:
+  default: none
+  exclusions:
+    paths:
+      - internal/locale
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - godot
+    - gosec
+    - misspell
+    - revive
+    - staticcheck
+    - unused
+    - gocyclo
+  settings:
+    gosec:
+      excludes:
+        - G115
