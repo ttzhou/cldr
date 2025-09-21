@@ -1,0 +1,45 @@
+name: ci-checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '>=1.25.1'
+
+      - name: Check out code
+        uses: actions/checkout@v5
+
+      - name: Setup CI environment
+        run: sh .dev/setup-ci.sh
+
+      - name: Verify code formatting
+        run: make fmt-check && git diff --exit-code
+
+      - name: Verify dependency consistency
+        run: make tidy && git diff --exit-code
+
+      - name: Verify potential issues
+        run: make lint && git diff --exit-code
+
+      - name: Run tests with coverage
+        run: make gen-test-cover
+
+      - name: Upload test coverage
+        uses: codecov/codecov-action@v5
+        with:
+          fail_ci_if_error: true
+          files: ./cover.out
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Cleanup
+        run: make clean
+
