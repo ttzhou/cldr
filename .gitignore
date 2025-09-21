@@ -1,3 +1,8 @@
+# dev
 .tools
 
+# artifacts
 internal/resources
+
+# ci
+cover.out
