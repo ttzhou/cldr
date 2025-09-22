@@ -26,18 +26,18 @@ lint-fix:
 
 .PHONY: test
 test:
-	@go test -v -coverpkg=./num/... ./test/num/... 
+	@go test -v -coverpkg=./num/... ./test/... 
 
 .PHONY: gen-test-cover
 gen-test-cover: # not intended for direct use
-	@go test -v -coverpkg=./num/... -coverprofile=cover.out ./test/num/... 
+	@go test -v -coverpkg=./num/... -coverprofile=cover.out ./test/... 
 
 .PHONY: test-cover-report-cli
-test-cover-report-cli: --gen-test-cover
+test-cover-report-cli: gen-test-cover
 	@go tool cover -func=cover.out
 
 .PHONY: test-cover-report-browser
-test-cover-report-browser: --gen-test-cover
+test-cover-report-browser: gen-test-cover
 	@go tool cover -html=cover.out
 
 .PHONY: clean
