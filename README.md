@@ -1,6 +1,7 @@
 # cldr
 
 <!-- badges -->
+[![Go Reference](https://pkg.go.dev/badge/github.com/ttzhou/cldr.svg)](https://pkg.go.dev/github.com/ttzhou/cldr)
 ![go](https://img.shields.io/github/go-mod/go-version/ttzhou/cldr)
 [![codecov](https://codecov.io/gh/ttzhou/cldr/graph/badge.svg?token=SUU0ERUAST)](https://codecov.io/gh/ttzhou/cldr)
 
