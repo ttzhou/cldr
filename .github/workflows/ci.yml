@@ -28,13 +28,25 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out code
+        uses: actions/checkout@v5
+
+      - name: Verify Codecov config
+        run: curl -s --fail-with-body --data-binary @.codecov.yml https://codecov.io/validate
+
+      - uses: dorny/paths-filter@v3
+        id: changed-files
+        with:
+          filters: |
+            should-lint:
+              - 'internal/**'
+              - 'num/**'
+              - 'test/**'
+
       - name: Setup Go
         uses: actions/setup-go@v6
         with:
           go-version: '>=1.25.1'
-
-      - name: Check out code
-        uses: actions/checkout@v5
 
       - name: Setup CI environment
         run: sh .dev/setup-ci.sh
@@ -46,6 +58,7 @@ jobs:
         run: make tidy && git diff --exit-code
 
       - name: Verify potential issues
+        if: steps.changed-files.outputs.should-lint == 'true'
         run: make lint && git diff --exit-code
 
       - name: Run tests with coverage
