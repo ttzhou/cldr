@@ -1,8 +1,9 @@
 // Package locale contains structures for managing localization specific information.
+package locale
+
 // This file is itself not generated, but contains "seed/source" types
 // needed for running the "go generate" command for this directory, which will
 // create the actual locale data files in the same directory.
-package locale
 
 import "strings"
 
