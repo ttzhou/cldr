@@ -1,0 +1,8 @@
+codecov:
+  default: main
+
+coverage:
+  status:
+    project: true
+    patch: false
+    changes: false
