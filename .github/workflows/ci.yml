@@ -8,7 +8,7 @@ on:
       - num/**
       - test/**
       - .github/workflows/ci.yml
-      - .codecov.yaml
+      - .codecov.yml
       - gen_locales.go
       - go.mod
       - Makefile
@@ -19,7 +19,7 @@ on:
       - num/**
       - test/**
       - .github/workflows/ci.yml
-      - .codecov.yaml
+      - .codecov.yml
       - gen_locales.go
       - go.mod
       - Makefile
