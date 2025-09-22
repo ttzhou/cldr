@@ -4,30 +4,10 @@ import (
 	"slices"
 	"unicode"
 
-	"cldr/internal/locale"
+	"github.com/ttzhou/cldr/internal/locale"
 )
 
-type currencyStyle uint8
-
-const (
-	code currencyStyle = iota
-	symbol
-	symbolnarrow
-	none
-)
-
-type currencyLabel string
-
-func (cl currencyLabel) isEmpty() bool {
-	return len(cl) == 0
-}
-
-func (cl currencyLabel) containsAlphaChars() bool {
-	return slices.ContainsFunc([]rune(cl), func(r rune) bool { return unicode.IsLetter(r) })
-}
-
-// A MoneyFormatter is a struct containing
-// information necessary to format locale-aware
+// A MoneyFormatter can be used to format locale-aware
 // monetary amounts using CLDR data.
 type MoneyFormatter struct {
 	useAccountingStyle bool
@@ -38,7 +18,7 @@ type MoneyFormatter struct {
 	numberFormatter numberFormatter
 }
 
-// NewMoneyFormatter returns a MoneyFormatter with
+// NewMoneyFormatter returns a [MoneyFormatter] with
 // no fixed scale (-1), set to locale `l`. A non-nil error is returned if
 // the locale is not supported.
 func NewMoneyFormatter(l string) (MoneyFormatter, error) {
@@ -56,7 +36,7 @@ func NewMoneyFormatter(l string) (MoneyFormatter, error) {
 	return mf, nil
 }
 
-// MustNewMoneyFormatter calls NewMoneyFormatter, and panics if its error result is not nil.
+// MustNewMoneyFormatter calls [NewMoneyFormatter], and panics if its error result is not nil.
 // Otherwise, it returns the non-error result.
 func MustNewMoneyFormatter(l string) MoneyFormatter {
 	mf, err := NewMoneyFormatter(l)
@@ -73,8 +53,7 @@ func (mf *MoneyFormatter) SetLocale(l string) error {
 	return mf.numberFormatter.setLocale(l)
 }
 
-// MustSetLocale changes the locale considered when formatting.
-// The method panics if the locale is not supported.
+// MustSetLocale calls [MoneyFormatter.SetLocale], and panics if it returns an error.
 func (mf *MoneyFormatter) MustSetLocale(l string) {
 	if err := mf.SetLocale(l); err != nil {
 		panic(err)
@@ -133,6 +112,25 @@ func (mf MoneyFormatter) MustFormat(w int64, f uint64, c string) string {
 	}
 
 	return s
+}
+
+type currencyStyle uint8
+
+const (
+	code currencyStyle = iota
+	symbol
+	symbolnarrow
+	none
+)
+
+type currencyLabel string
+
+func (cl currencyLabel) isEmpty() bool {
+	return len(cl) == 0
+}
+
+func (cl currencyLabel) containsAlphaChars() bool {
+	return slices.ContainsFunc([]rune(cl), func(r rune) bool { return unicode.IsLetter(r) })
 }
 
 func (mf *MoneyFormatter) setCurrency(c string) (locale.CurrencyData, error) {

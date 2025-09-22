@@ -3,9 +3,7 @@ package num
 import "fmt"
 
 const (
-	// MaxSupportedScale indicates the max number of digits
-	// supported for formatting.
-	MaxSupportedScale = uint8(len(fracFormats) - 1)
+	maxSupportedScale = uint8(len(fracFormats) - 1)
 )
 
 func unsupportedLocaleError(l string) error {
@@ -21,7 +19,7 @@ func unsupportedScaleError(s int8) error {
 		return fmt.Errorf("scale %d must be at least -1", s)
 	}
 
-	return fmt.Errorf("scale %d exceeds max supported scale %d", s, MaxSupportedScale)
+	return fmt.Errorf("scale %d exceeds max supported scale %d", s, maxSupportedScale)
 }
 
 func fractionalScaleError(f uint64, s uint8) error {

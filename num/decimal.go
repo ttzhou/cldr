@@ -1,18 +1,17 @@
 package num
 
-// A DecimalFormatter is a struct containing
-// information necessary to format locale-aware
+// A DecimalFormatter can be used to format locale-aware
 // decimal strings using CLDR data.
 type DecimalFormatter struct {
 	scale           int8
 	numberFormatter numberFormatter
 }
 
-// NewDecimalFormatter returns a DecimalFormatter with
+// NewDecimalFormatter returns a [DecimalFormatter] with
 // no fixed scale (-1), set to locale `l`. A non-nil error is returned if
 // the locale is not supported.
 //
-// See SetScale for a description of scales.
+// See [SetScale] for a description of scales.
 func NewDecimalFormatter(l string) (DecimalFormatter, error) {
 	df := DecimalFormatter{}
 
@@ -28,7 +27,7 @@ func NewDecimalFormatter(l string) (DecimalFormatter, error) {
 	return df, nil
 }
 
-// MustNewDecimalFormatter calls NewDecimalFormatter, and panics if its error result is not nil.
+// MustNewDecimalFormatter calls [NewDecimalFormatter], and panics if its error result is not nil.
 // Otherwise, it returns the non-error result.
 func MustNewDecimalFormatter(l string) DecimalFormatter {
 	df, err := NewDecimalFormatter(l)
@@ -61,7 +60,7 @@ func (df *DecimalFormatter) SetScale(s int8) error {
 	return nil
 }
 
-// MustSetScale calls SetScale, and panics if it returns an error.
+// MustSetScale calls [DecimalFormatter.SetScale], and panics if it returns an error.
 func (df *DecimalFormatter) MustSetScale(s int8) {
 	if err := df.SetScale(s); err != nil {
 		panic(err.Error())
@@ -74,7 +73,7 @@ func (df *DecimalFormatter) SetLocale(l string) error {
 	return df.numberFormatter.setLocale(l)
 }
 
-// MustSetLocale calls SetLocale, and panics if it returns an error.
+// MustSetLocale calls [DecimalFormatter.SetLocale], and panics if it returns an error.
 func (df *DecimalFormatter) MustSetLocale(l string) {
 	if err := df.SetLocale(l); err != nil {
 		panic(err)
@@ -87,7 +86,7 @@ func (df DecimalFormatter) Format(w int64, f uint64) (string, error) {
 	return df.numberFormatter.format(w, f, df.scale, "")
 }
 
-// MustFormat calls Format, and panics if there is an error.
+// MustFormat calls [Format], and panics if there is an error.
 func (df DecimalFormatter) MustFormat(w int64, f uint64) string {
 	s, err := df.Format(w, f)
 	if err != nil {

@@ -6,7 +6,7 @@ package main
 import (
 	"flag"
 
-	"cldr/internal/gen"
+	"github.com/ttzhou/cldr/internal/gen"
 )
 
 func main() {

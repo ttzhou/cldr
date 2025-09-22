@@ -4,7 +4,7 @@ import (
 	"math"
 	"testing"
 
-	"cldr/num"
+	"github.com/ttzhou/cldr/num"
 )
 
 type decimalTestCase struct {

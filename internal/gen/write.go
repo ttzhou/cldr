@@ -11,7 +11,7 @@ import (
 	"slices"
 	"strings"
 
-	"cldr/internal/locale"
+	"github.com/ttzhou/cldr/internal/locale"
 )
 
 var (
