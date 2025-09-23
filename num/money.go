@@ -57,7 +57,7 @@ func (mf *MoneyFormatter) SetLocale(l string) error {
 // MustSetLocale calls [MoneyFormatter.SetLocale], and panics if it returns an error.
 func (mf *MoneyFormatter) MustSetLocale(l string) {
 	if err := mf.SetLocale(l); err != nil {
-		panic(fmt.Errorf("in num.MustSetLocale: %w", err))
+		panic(fmt.Errorf("in MoneyFormatter.MustSetLocale: %w", err))
 	}
 }
 
@@ -115,7 +115,7 @@ func (mf MoneyFormatter) Format(w int64, f uint64, c string) (string, error) {
 func (mf MoneyFormatter) MustFormat(w int64, f uint64, c string) string {
 	s, err := mf.Format(w, f, c)
 	if err != nil {
-		panic(fmt.Errorf("in num.MustSetLocale: %w", err))
+		panic(fmt.Errorf("in MoneyFormatter.MustFormat: %w", err))
 	}
 
 	return s

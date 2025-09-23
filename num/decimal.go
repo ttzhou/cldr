@@ -65,7 +65,7 @@ func (df *DecimalFormatter) SetScale(s int8) error {
 // MustSetScale calls [DecimalFormatter.SetScale], and panics if it returns an error.
 func (df *DecimalFormatter) MustSetScale(s int8) {
 	if err := df.SetScale(s); err != nil {
-		panic(fmt.Errorf("in num.MustSetScale: %w", err))
+		panic(fmt.Errorf("in DecimalFormatter.MustSetScale: %w", err))
 	}
 }
 
@@ -78,7 +78,7 @@ func (df *DecimalFormatter) SetLocale(l string) error {
 // MustSetLocale calls [DecimalFormatter.SetLocale], and panics if it returns an error.
 func (df *DecimalFormatter) MustSetLocale(l string) {
 	if err := df.SetLocale(l); err != nil {
-		panic(fmt.Errorf("in num.MustSetLocale: %w", err))
+		panic(fmt.Errorf("in DecimalFormatter.MustSetLocale: %w", err))
 	}
 }
 

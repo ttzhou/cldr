@@ -44,7 +44,8 @@ func main() {
 
     mf.MustSetLocale("fr-CA")
 	fmt.Println(mf.MustFormat(f, uint64(w), amt.Curr().String())) // 91 411,21 $
-	// fmt.Println(mf.MustFormat(f, uint64(w), "JPY")) - panics
+	// fmt.Println(mf.MustFormat(f, uint64(w), "JPY"))
+    // panic("in MoneyFormatter.MustFormat: fractional part 21 exceeds scale 0 (JPY)")
 	fmt.Println(mf.MustFormat(f, 0, "JPY")) // 91 411 ¥
 }
 ```
