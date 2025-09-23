@@ -18,19 +18,44 @@ func TestMoneyFormatter(t *testing.T) {
 	t.Run("NewMoneyFormatter()", func(t *testing.T) {
 		t.Run("unsupported locales", func(t *testing.T) {
 			for i, tc := range []moneyTestCase{
-				{"xx", 1000000, 100, "USD", ""},
-				{"en-XX", 1000000, 100, "USD", ""},
+				{"xx", 1000000, 100, "USD", "unsupported locale: \"xx\""},
+				{"en-XX", 1000000, 100, "USD", "unsupported locale: \"en-XX\""},
 			} {
 				_, err := num.NewMoneyFormatter(tc.locale)
 				if err == nil {
 					t.Errorf("test case #%d - expected error but did not receive one", i+1)
+					continue
+				}
+				got := err.Error()
+				if got != tc.expected {
+					t.Errorf("test case #%d - got: %s, expected: %s", i+1, got, tc.expected)
+				}
+			}
+		})
+	})
+
+	t.Run("Format()", func(t *testing.T) {
+		t.Run("fractional scale error", func(t *testing.T) {
+			for i, tc := range []moneyTestCase{
+				{"en", 1000000, 2, "JPY", "fractional part 2 exceeds scale 0 (JPY)"},
+				{"en", 1000000, 240, "USD", "fractional part 240 exceeds scale 2 (USD)"},
+			} {
+				mf := num.MustNewMoneyFormatter(tc.locale)
+				_, err := mf.Format(tc.whole, tc.frac, tc.cur)
+				if err == nil {
+					t.Errorf("test case #%d - expected error but did not receive one", i+1)
+					continue
+				}
+				got := err.Error()
+				if got != tc.expected {
+					t.Errorf("test case #%d - got: %s, expected: %s", i+1, got, tc.expected)
 				}
 			}
 		})
 
 		t.Run("unsupported currencies for locale", func(t *testing.T) {
 			for i, tc := range []moneyTestCase{
-				{"en", 100000, 1, "XYX", ""},
+				{"en", 100000, 1, "XYX", "unsupported currency \"XYX\" for locale \"en\""},
 			} {
 				mf := num.MustNewMoneyFormatter(tc.locale)
 				mf.UseStandardStyle()
@@ -39,16 +64,19 @@ func TestMoneyFormatter(t *testing.T) {
 				_, err := mf.Format(tc.whole, tc.frac, tc.cur)
 				if err == nil {
 					t.Errorf("test case #%d - expected error but did not receive one", i+1)
+					continue
+				}
+				got := err.Error()
+				if got != tc.expected {
+					t.Errorf("test case #%d - got: %s, expected: %s", i+1, got, tc.expected)
 				}
 			}
 		})
-	})
 
-	t.Run("Format()", func(t *testing.T) {
 		t.Run("standard style, currency code", func(t *testing.T) {
 			for i, tc := range []moneyTestCase{
 				{"en", 1, 0, "USD", "USD\u00a01.00"},
-				{"en", 1, 0, "USD", "USD\u00a01.00"},
+				{"en", 1, 2, "USD", "USD\u00a01.02"},
 				{"en", 1, 0o1, "USD", "USD\u00a01.01"},
 
 				{"fr", 1000, 10, "USD", "1\u202f000,10\u00a0USD"},

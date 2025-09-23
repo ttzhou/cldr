@@ -60,6 +60,11 @@ func newNumberFormatter(l string) (numberFormatter, error) {
 }
 
 func (f numberFormatter) format(w int64, fn uint64, s int8, cs string) (string, error) {
+	fs, err := f.formatFrac(fn, s)
+	if err != nil {
+		return "", err
+	}
+
 	sb := strings.Builder{}
 
 	isNegative := w < 0
@@ -73,16 +78,9 @@ func (f numberFormatter) format(w int64, fn uint64, s int8, cs string) (string, 
 
 	sb.WriteString(f.formatWhole(uint64(w)))
 
-	if s != 0 {
-		fs, err := f.formatFrac(fn, uint8(max(s, 0)))
-		if err != nil {
-			return "", err
-		}
-
-		if len(fs) > 0 {
-			sb.WriteString(f.locale.Data.NumberInfo.FractionalSeparator)
-			sb.WriteString(fs)
-		}
+	if len(fs) > 0 {
+		sb.WriteString(f.locale.Data.NumberInfo.FractionalSeparator)
+		sb.WriteString(fs)
 	}
 
 	if isNegative {
@@ -133,35 +131,42 @@ func (f numberFormatter) formatWhole(n uint64) string {
 	return strings.Join(buf, "")
 }
 
-func (f numberFormatter) formatFrac(n uint64, mw uint8) (string, error) {
-	var s string
+func (f numberFormatter) formatFrac(n uint64, s int8) (string, error) {
+	var ns string
 
-	if mw > 0 {
-		if mw > uint8(maxSupportedScale) {
-			return "", unsupportedScaleError(int8(mw))
+	if s > 0 {
+		us := uint8(s)
+		if us > maxSupportedScale {
+			return "", unsupportedScaleError(s)
 		}
-		if countDigits(n) > mw {
-			return "", fractionalScaleError(n, mw)
+		if countDigits(n) > us {
+			return "", fractionalScaleError(n, us)
 		}
 
-		i := min(mw, uint8(len(fracFormats)-1))
-		s = fmt.Sprintf(fracFormats[i], n)
+		ns = fmt.Sprintf(fracFormats[s], n)
+	} else if s == 0 {
+		if n > 0 {
+			return "", fractionalScaleError(n, 0)
+		}
+		return "", nil
+	} else if s == -1 {
+		ns = strings.TrimRight(strconv.FormatUint(n, 10), "0")
 	} else {
-		s = strings.TrimRight(strconv.FormatUint(n, 10), "0")
+		return "", unsupportedScaleError(s)
 	}
 
 	if f.locale.Data.NumberInfo.NumberSystem != "latn" {
-		ss := strings.Split(s, "")
+		ss := strings.Split(ns, "")
 		for i, d := range ss {
 			di, _ := strconv.Atoi(d)
 			d = f.locale.Data.NumberInfo.Digits[di]
 			ss[i] = d
 		}
 
-		s = strings.Join(ss, "")
+		ns = strings.Join(ss, "")
 	}
 
-	return s, nil
+	return ns, nil
 }
 
 func countDigits(n uint64) uint8 {

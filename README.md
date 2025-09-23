@@ -4,6 +4,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/ttzhou/cldr.svg)](https://pkg.go.dev/github.com/ttzhou/cldr)
 ![go](https://img.shields.io/github/go-mod/go-version/ttzhou/cldr)
 [![codecov](https://codecov.io/gh/ttzhou/cldr/graph/badge.svg?token=SUU0ERUAST)](https://codecov.io/gh/ttzhou/cldr)
+[![ci-checks](https://github.com/ttzhou/cldr/actions/workflows/ci.yml/badge.svg)](https://github.com/ttzhou/cldr/actions/workflows/ci.yml)
 
 # about
 
@@ -43,7 +44,8 @@ func main() {
 
     mf.MustSetLocale("fr-CA")
 	fmt.Println(mf.MustFormat(f, uint64(w), amt.Curr().String())) // 91 411,21 $
-	fmt.Println(mf.MustFormat(f, uint64(w), "JPY")) // 91 411 ¥
+	// fmt.Println(mf.MustFormat(f, uint64(w), "JPY")) - panics
+	fmt.Println(mf.MustFormat(f, 0, "JPY")) // 91 411 ¥
 }
 ```
 

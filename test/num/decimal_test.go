@@ -1,6 +1,7 @@
 package num_test
 
 import (
+	"fmt"
 	"math"
 	"testing"
 
@@ -19,12 +20,17 @@ func TestDecimalFormatter(t *testing.T) {
 	t.Run("NewDecimalFormatter()", func(t *testing.T) {
 		t.Run("unsupported locales", func(t *testing.T) {
 			for i, tc := range []decimalTestCase{
-				{"xx", 1000000, 100, 1, ""},
-				{"en-XX", 1000000, 100, 1, ""},
+				{"xx", 1000000, 100, 1, "unsupported locale: \"xx\""},
+				{"en-XX", 1000000, 100, 1, "unsupported locale: \"en-XX\""},
 			} {
 				_, err := num.NewDecimalFormatter(tc.locale)
 				if err == nil {
 					t.Errorf("test case #%d - expected error but did not receive one", i+1)
+					continue
+				}
+				actual := err.Error()
+				if actual != tc.expected {
+					t.Errorf("test case #%d - got: %q, expected: %q", i+1, actual, tc.expected)
 				}
 			}
 		})
@@ -33,21 +39,27 @@ func TestDecimalFormatter(t *testing.T) {
 	t.Run("Format()", func(t *testing.T) {
 		t.Run("unsupported scale error", func(t *testing.T) {
 			for i, tc := range []decimalTestCase{
-				{"en", 1000000, 100, 21, ""},
-				{"en", 1000000, 100, -2, ""},
+				{"en", 1000000, 100, 21, "scale 21 exceeds max supported scale 20"},
+				{"en", 1000000, 100, -2, "scale -2 must be at least -1"},
 			} {
 				nf := num.MustNewDecimalFormatter(tc.locale)
 
 				err := nf.SetScale(tc.scale)
 				if err == nil {
 					t.Errorf("test case #%d - expected error but did not receive one", i+1)
+					continue
+				}
+				actual := err.Error()
+				if actual != tc.expected {
+					t.Errorf("test case #%d - got: %q, expected: %q", i+1, actual, tc.expected)
 				}
 			}
 		})
 		t.Run("fractional scale error", func(t *testing.T) {
 			for i, tc := range []decimalTestCase{
-				{"en", 1000000, 100, 1, ""},
-				{"en", 1000000, math.MaxUint64, 19, ""},
+				{"en", 1000000, 1, 0, "fractional part 1 exceeds scale 0"},
+				{"en", 1000000, 100, 1, "fractional part 100 exceeds scale 1"},
+				{"en", 1000000, math.MaxUint64, 19, fmt.Sprintf("fractional part %d exceeds scale 19", uint(math.MaxUint64))},
 			} {
 				nf := num.MustNewDecimalFormatter(tc.locale)
 				_ = nf.SetScale(tc.scale)
@@ -55,6 +67,11 @@ func TestDecimalFormatter(t *testing.T) {
 				_, err := nf.Format(tc.whole, tc.frac)
 				if err == nil {
 					t.Errorf("test case #%d - expected error but did not receive one", i+1)
+					continue
+				}
+				actual := err.Error()
+				if actual != tc.expected {
+					t.Errorf("test case #%d - got: %q, expected: %q", i+1, actual, tc.expected)
 				}
 			}
 		})
@@ -63,7 +80,6 @@ func TestDecimalFormatter(t *testing.T) {
 			for i, tc := range []decimalTestCase{
 				{"en", 1, 0, 0, "1"},
 				{"en", 1, 0, 2, "1.00"},
-				{"en", 1, 0o1, 0, "1"},
 				{"en", 1, 0o1, -1, "1.1"},
 				{"en", 1, 0o1, 1, "1.1"},
 				{"en", 1, 0o1, 2, "1.01"},

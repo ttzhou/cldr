@@ -51,7 +51,7 @@ func MustNewDecimalFormatter(l string) DecimalFormatter {
 // An error is returned if the scale is unsupported, i.e.
 // if it is <-1 or > the max supported scale = 20.
 func (df *DecimalFormatter) SetScale(s int8) error {
-	if s < -1 || int(s) > len(fracFormats)-1 {
+	if s < -1 || s > int8(maxSupportedScale) {
 		return unsupportedScaleError(s)
 	}
 
@@ -86,7 +86,7 @@ func (df DecimalFormatter) Format(w int64, f uint64) (string, error) {
 	return df.numberFormatter.format(w, f, df.scale, "")
 }
 
-// MustFormat calls [Format], and panics if there is an error.
+// MustFormat calls [DecimalFormatter.Format], and panics if there is an error.
 func (df DecimalFormatter) MustFormat(w int64, f uint64) string {
 	s, err := df.Format(w, f)
 	if err != nil {
