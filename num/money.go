@@ -1,6 +1,7 @@
 package num
 
 import (
+	"fmt"
 	"slices"
 	"unicode"
 
@@ -19,8 +20,8 @@ type MoneyFormatter struct {
 }
 
 // NewMoneyFormatter returns a [MoneyFormatter] with
-// no fixed scale (-1), set to locale `l`. A non-nil error is returned if
-// the locale is not supported.
+// no fixed scale (-1), set to locale `l`.
+// A non-nil error is returned ift he locale is not supported.
 func NewMoneyFormatter(l string) (MoneyFormatter, error) {
 	mf := MoneyFormatter{}
 
@@ -93,18 +94,24 @@ func (mf *MoneyFormatter) DisplayNoCurrency() {
 }
 
 // Format formats a given number's whole and fractional parts into a locale-aware string
-// for the given currency. A non-nil error is returned if the formatting cannot be done.
+// for the given currency.
+// A non-nil error is returned if:
+//   - the currency is not supported for the formatter's currently set locale
+//   - the fractional part exceeds the number of minor digits for the currency (e.g. 2 minor units would fail for JPY, which has no minor, but not for USD)
 func (mf MoneyFormatter) Format(w int64, f uint64, c string) (string, error) {
-	ci, err := mf.setCurrency(c)
-	if err != nil {
-		return "", err
+	ci, setCurrencyErr := mf.setCurrency(c)
+	if setCurrencyErr != nil {
+		return "", setCurrencyErr
 	}
 
-	return mf.numberFormatter.format(w, f, int8(ci.MinorDigits), string(mf.currencyLabel))
+	s, formatErr := mf.numberFormatter.format(w, f, int8(ci.MinorDigits), string(mf.currencyLabel))
+	if formatErr != nil {
+		return "", fmt.Errorf("%w (%s)", formatErr, c)
+	}
+	return s, nil
 }
 
-// MustFormat formats a given number's whole and fractional parts into a locale-aware string
-// for the given currency. The method panics if the formatting cannot be done.
+// MustFormat calls [MoneyFormatter.Format], and panics if it returns a non-nil error.
 func (mf MoneyFormatter) MustFormat(w int64, f uint64, c string) string {
 	s, err := mf.Format(w, f, c)
 	if err != nil {
