@@ -3,6 +3,9 @@ codecov:
 
 coverage:
   status:
-    project: true
+    project:
+      default:
+        threshold: 5
+        target: 90
     patch: false
     changes: false
