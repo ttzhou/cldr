@@ -1,5 +1,7 @@
 package num
 
+import "fmt"
+
 // A DecimalFormatter can be used to format locale-aware
 // decimal strings using CLDR data.
 type DecimalFormatter struct {
@@ -32,7 +34,7 @@ func NewDecimalFormatter(l string) (DecimalFormatter, error) {
 func MustNewDecimalFormatter(l string) DecimalFormatter {
 	df, err := NewDecimalFormatter(l)
 	if err != nil {
-		panic(err)
+		panic(fmt.Errorf("in num.MustNewDecimalFormatter: %w", err))
 	}
 
 	return df
@@ -63,7 +65,7 @@ func (df *DecimalFormatter) SetScale(s int8) error {
 // MustSetScale calls [DecimalFormatter.SetScale], and panics if it returns an error.
 func (df *DecimalFormatter) MustSetScale(s int8) {
 	if err := df.SetScale(s); err != nil {
-		panic(err.Error())
+		panic(fmt.Errorf("in num.MustSetScale: %w", err))
 	}
 }
 
@@ -76,7 +78,7 @@ func (df *DecimalFormatter) SetLocale(l string) error {
 // MustSetLocale calls [DecimalFormatter.SetLocale], and panics if it returns an error.
 func (df *DecimalFormatter) MustSetLocale(l string) {
 	if err := df.SetLocale(l); err != nil {
-		panic(err)
+		panic(fmt.Errorf("in num.MustSetLocale: %w", err))
 	}
 }
 
