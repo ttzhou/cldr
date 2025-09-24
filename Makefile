@@ -19,6 +19,8 @@ pre-commit: fmt
 
 .PHONY: pre-push
 pre-push: pre-commit lint
+	# validate codecov config
+	@curl -s --fail-with-body --data-binary @.codecov.yml https://codecov.io/validate
 
 .PHONY: lint-fix
 lint-fix:

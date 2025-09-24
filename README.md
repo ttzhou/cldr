@@ -5,6 +5,7 @@
 ![go](https://img.shields.io/github/go-mod/go-version/ttzhou/cldr)
 [![codecov](https://codecov.io/gh/ttzhou/cldr/graph/badge.svg?token=SUU0ERUAST)](https://codecov.io/gh/ttzhou/cldr)
 [![ci-checks](https://github.com/ttzhou/cldr/actions/workflows/ci.yml/badge.svg)](https://github.com/ttzhou/cldr/actions/workflows/ci.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/ttzhou/cldr)](https://goreportcard.com/report/github.com/ttzhou/cldr)
 
 # about
 
