@@ -51,6 +51,21 @@ func main() {
 }
 ```
 
+## why even build this
+
+I wanted a toy project to learn golang, and have always found currency
+localization interesting, so this seemed like a decent project.
+
+There are a fair number of decimal/money packages already out there in the
+golang community, but only one, [bojanz's currency package](github.com/bojanz/currency), 
+seemed to also provide a robust localized formatting component. However, it tied it tightly
+to its own implementation of money (using [cockroachDB's apd package](github.com/cockroachdb/apd)), 
+while I preferred [govalues' money package](github.com/govalues/money) implementation. 
+Unfortunately, `govalues` does not have localized formatting functionality, 
+so I decided to build my own for my own purposes, and share it for anyone to use if they wish.
+
+If it happens to be useful for even one person, I consider it a win.
+
 # contributing
 
 Development is currently only supported on POSIX-compliant environments.
