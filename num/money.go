@@ -20,8 +20,9 @@ type MoneyFormatter struct {
 }
 
 // NewMoneyFormatter returns a [MoneyFormatter] with
-// no fixed scale (-1), set to locale `l`.
-// A non-nil error is returned ift he locale is not supported.
+// no fixed scale (-1) and locale l.
+//
+// A non-nil error is returned if the locale is not supported.
 func NewMoneyFormatter(l string) (MoneyFormatter, error) {
 	mf := MoneyFormatter{}
 

@@ -13,12 +13,11 @@
   (printf '⚠ error: "mkdir" required but not found' && exit 1)
 
 # golangci-lint
-(command -v .tools/golangci-lint 1>/dev/null && printf '[✓] golangci-lint\n') ||
-  (
-    printf '\n==> installing golangci-lint...\n' &&
-      (curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b .tools latest) &&
-      printf '[✓] golangci-lint\n'
-  )
+(
+  printf '\n==> installing golangci-lint...\n' &&
+    (curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b .tools latest) &&
+    printf '[✓] golangci-lint\n'
+)
 
 # make
 (command -v make 1>/dev/null && printf '[✓] make\n') ||

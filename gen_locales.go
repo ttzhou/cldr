@@ -18,7 +18,7 @@ func main() {
 	flag.Parse()
 
 	gen.LocaleFiles(
-		"./internal/resources/data/cldr-47.0.0.zip",
+		"./internal/resources/data",
 		"./internal/locale",
 		*coverageFlag,
 	)
