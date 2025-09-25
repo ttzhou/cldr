@@ -5,30 +5,32 @@ package gen
 import (
 	"fmt"
 	"log/slog"
+	"path/filepath"
 )
 
 // LocaleFiles generates files for all CLDR locales
 // with coverage "modern".
 func LocaleFiles(
-	writeZipFileTo string,
-	writeFilesToDir string,
+	dataDir string,
+	localeFileDir string,
 	coverageLevel string,
 ) {
-	cf, err := downloadAndOpen(writeZipFileTo)
+	filename := fmt.Sprintf("cldr-%s.zip", cldrVersion)
+	cf, err := downloadAndOpen(filepath.Join(dataDir, filename))
 	if err != nil {
 		panic(err)
 	}
-	slog.Info(fmt.Sprintf("Parsing CLDR data from %s...", writeZipFileTo))
+	slog.Info(fmt.Sprintf("Parsing CLDR data from %s...", dataDir))
 	cldrData := cf.getData()
 
 	slog.Info(
 		fmt.Sprintf(
 			"Generating locale files with coverage %q in %s...",
 			coverageLevel,
-			writeFilesToDir,
+			localeFileDir,
 		),
 	)
-	known, total, err := cldrData.writeLocaleFiles(writeFilesToDir, coverageLevel)
+	known, total, err := cldrData.writeLocaleFiles(localeFileDir, coverageLevel)
 	if err != nil {
 		panic(err)
 	}

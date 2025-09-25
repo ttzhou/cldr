@@ -1,6 +1,6 @@
 # Defines the configuration version.
 # The only possible value is "2".
-version: "2"
+version: '2'
 run:
   timeout: 5m
   concurrency: 8
@@ -8,6 +8,7 @@ run:
   tests: true
   build-tags:
     - generate
+
 formatters:
   enable:
     - gofumpt
@@ -19,6 +20,7 @@ formatters:
     gofumpt:
       module-path: cldr
       extra-rules: true
+
 linters:
   default: none
   exclusions:

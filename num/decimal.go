@@ -10,10 +10,11 @@ type DecimalFormatter struct {
 }
 
 // NewDecimalFormatter returns a [DecimalFormatter] with
-// no fixed scale (-1), set to locale `l`. A non-nil error is returned if
-// the locale is not supported.
+// no fixed scale (-1) and locale l.
 //
-// See [SetScale] for a description of scales.
+// A non-nil error is returned if the locale is not supported.
+//
+// See [DecmalFormatter.SetScale] for a description of scales.
 func NewDecimalFormatter(l string) (DecimalFormatter, error) {
 	df := DecimalFormatter{}
 
