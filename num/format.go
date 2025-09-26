@@ -40,8 +40,7 @@ var fracFormats = [...]string{
 }
 
 type numberFormatter struct {
-	localeCode string
-	locale     locale.Locale
+	locale locale.Locale
 
 	numberFormat locale.NumberFormat
 }
@@ -53,8 +52,7 @@ func newNumberFormatter(l string) (numberFormatter, error) {
 	if err != nil {
 		return f, err
 	}
-
-	f.numberFormat = f.locale.Data.NumberInfo.Formats.StandardDecimal
+	f.useStandardDecimalFormat()
 
 	return f, nil
 }
@@ -187,7 +185,6 @@ func (f *numberFormatter) setLocale(l string) error {
 		return unsupportedLocaleError(l)
 	}
 
-	f.localeCode = l
 	f.locale = lc
 
 	return nil
