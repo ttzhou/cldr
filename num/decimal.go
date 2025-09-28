@@ -14,7 +14,7 @@ type DecimalFormatter struct {
 //
 // A non-nil error is returned if the locale is not supported.
 //
-// See [DecmalFormatter.SetScale] for a description of scales.
+// See [DecimalFormatter.SetScale] for a description of scales.
 func NewDecimalFormatter(l string) (DecimalFormatter, error) {
 	df := DecimalFormatter{}
 
@@ -43,7 +43,7 @@ func MustNewDecimalFormatter(l string) DecimalFormatter {
 
 // SetScale changes the scale considered when formatting.
 // "scale" refers to the number of digits to the right of the decimal separator,
-// though we permit the special case of -1 scale.
+// thought we also permit the special case of -1 scale.
 //
 // A scale of -1 means we will format the decimal "regularly",
 // e.g. whole 10, frac 1000 => 10.1000 => 10.1
@@ -52,7 +52,7 @@ func MustNewDecimalFormatter(l string) DecimalFormatter {
 // whole 10, frac 1000 => 10.01000
 //
 // An error is returned if the scale is unsupported, i.e.
-// if it is <-1 or > the max supported scale = 20.
+// if it is less than -1, or greater than the max supported scale = 20.
 func (df *DecimalFormatter) SetScale(s int8) error {
 	if s < -1 || s > int8(maxSupportedScale) {
 		return unsupportedScaleError(s)
