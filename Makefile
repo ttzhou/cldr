@@ -22,6 +22,10 @@ pre-push: pre-commit lint
 	# validate codecov config
 	@curl -s --fail-with-body --data-binary @.codecov.yml https://codecov.io/validate
 
+.PHONY: setup-lint
+setup-lint:
+	@curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b .tools latest
+
 .PHONY: lint-fix
 lint-fix:
 	@.tools/golangci-lint run -v --fix

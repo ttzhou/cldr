@@ -88,7 +88,7 @@ func (cm currenciesMap) GoString() string {
 
 	for _, cur := range slices.Sorted(maps.Keys(cm)) {
 		info := currencyData(cm[cur])
-		cmsb.WriteString(fmt.Sprintf("\"%s\": ", cur))
+		fmt.Fprintf(&cmsb, "\"%s\": ", cur)
 		cmsb.WriteString(info.GoString())
 		cmsb.WriteString(",\n")
 	}
@@ -181,14 +181,14 @@ func (c cldrData) writeLocaleFiles(localeDir, coverageLevel string) (int, int, e
 			known++
 		}
 
-		localeMappings.WriteString(fmt.Sprintf("%q: {%q,%q,%q,%q,%s},\n",
+		fmt.Fprintf(&localeMappings, "%q: {%q,%q,%q,%q,%s},\n",
 			localeCode,
 			locale.Code,
 			locale.Language,
 			locale.Territory,
 			locale.Variant,
 			localeToVarName(localeMapping["known-locale"]),
-		))
+		)
 	}
 
 	location := filepath.Join(localeDir, "01_locales.go")
