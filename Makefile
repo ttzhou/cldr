@@ -32,11 +32,11 @@ lint-fix:
 
 .PHONY: test
 test:
-	@go test -v -coverpkg=./num/... ./test/... 
+	@go test -v -coverpkg=./num/... -coverpkg=./num/... ./test/... 
 
 .PHONY: gen-test-cover
 gen-test-cover: # not intended for direct use
-	@go test -v -coverpkg=./num/... -coverprofile=cover.out ./test/... 
+	@go test -v -coverpkg=./num/.. -coverpkg=./version/... -coverprofile=cover.out ./test/... 
 
 .PHONY: test-cover-report-cli
 test-cover-report-cli: gen-test-cover
