@@ -4,6 +4,8 @@ package locale
 
 import "strings"
 
+const CLDRVersion = "48.2.0"
+
 func Get(l string) (Locale, bool) {
 	locale, ok := localeDataMap[strings.ReplaceAll(l, "_", "-")]
 	return locale, ok

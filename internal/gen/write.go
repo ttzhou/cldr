@@ -30,6 +30,8 @@ package locale
 
 import "strings"
 
+const CLDRVersion = "%s"
+
 func Get(l string) (Locale, bool) {
 	locale, ok := localeDataMap[strings.ReplaceAll(l, "_", "-")]
 	return locale, ok
@@ -194,6 +196,7 @@ func (c cldrData) writeLocaleFiles(localeDir, coverageLevel string) (int, int, e
 	location := filepath.Join(localeDir, "01_locales.go")
 	contentBytes := fmt.Appendf([]byte{},
 		localeVarFileTemplate,
+		cldrVersion,
 		coverageLevel,
 		localeMappings.String(),
 	)
