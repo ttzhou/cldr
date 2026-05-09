@@ -76,7 +76,9 @@ Open PRs from your fork against this repository's `main` branch.
 
 # changelog
 
-No changelog will be maintained until this package reaches stable status 1.0.0. Expect the possibility of breaking changes at any point until then.
+NB: no versioned changelog will be maintained until this package reaches stable status 1.0.0. Expect the possibility of breaking changes at any point until then.
+
+2026-05-09: upgraded internal dataset to CLDR 48.2.0
 
 # TODOs
 
