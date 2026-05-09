@@ -8,13 +8,15 @@ import (
 )
 
 func Test(t *testing.T) {
-	usedForGen, usedForModule := locale.CLDRVersion, version.Get()
+	t.Run("Get()", func(t *testing.T) {
+		usedForGen, usedForModule := locale.CLDRVersion, version.Get()
 
-	if usedForGen != usedForModule {
-		t.Errorf(
-			"module CLDR version %v does not match version used to generate CLDR data %v",
-			usedForModule,
-			usedForGen,
-		)
-	}
+		if usedForGen != usedForModule {
+			t.Errorf(
+				"module CLDR version %v does not match version used to generate CLDR data %v",
+				usedForModule,
+				usedForGen,
+			)
+		}
+	})
 }
