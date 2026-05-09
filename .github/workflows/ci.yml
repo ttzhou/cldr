@@ -6,6 +6,7 @@ on:
     paths:
       - internal/**
       - num/**
+      - version/**
       - test/**
       - .github/workflows/ci.yml
       - .codecov.yml
@@ -17,6 +18,7 @@ on:
     paths:
       - internal/**
       - num/**
+      - version/**
       - test/**
       - .github/workflows/ci.yml
       - .codecov.yml
@@ -32,7 +34,8 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Verify Codecov config
-        run: curl -s --fail-with-body --data-binary @.codecov.yml https://codecov.io/validate
+        run: curl -s --fail-with-body --data-binary @.codecov.yml
+          https://codecov.io/validate
 
       - uses: dorny/paths-filter@v3
         id: changed-files
