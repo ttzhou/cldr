@@ -237,7 +237,7 @@ func TestMoneyFormatter(t *testing.T) {
 				{"fr", -1000, 10, "USD", "(1\u202f000,10)"},
 				{"fr-CA", -1000, 10, "USD", "(1\u00a0000,10)"},
 				{"en-CA", -1000, 10, "USD", "(1,000.10)"},
-				{"ar", -100000, 1, "BHD", "(100,000.001)"},
+				{"ar", -100000, 1, "BHD", "(\u061c100,000.001)"},
 			} {
 				mf := num.MustNewMoneyFormatter(tc.locale)
 				_ = mf.SetLocale(tc.locale)
@@ -248,6 +248,8 @@ func TestMoneyFormatter(t *testing.T) {
 				actual := mf.MustFormat(tc.whole, tc.frac, tc.cur)
 				if actual != tc.expected {
 					t.Errorf("test case #%d - got: %v, expected: %v", i+1, actual, tc.expected)
+					t.Logf("%v", []byte(actual))
+					t.Logf("%v", []byte(tc.expected))
 				}
 			}
 		})

@@ -20,7 +20,7 @@ import (
 )
 
 const (
-	cldrVersion = "47.0.0"
+	cldrVersion = "48.2.0"
 	urlFormat   = "https://github.com/unicode-org/cldr-json/releases/download/%[1]s/cldr-%[1]s-json-full.zip"
 )
 
